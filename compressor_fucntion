@@ -1,0 +1,45 @@
+#Mu-law compander
+#written by: Omer Mujahid
+
+
+class COMPANDER(object):
+
+  def __init__(self, mu=255):
+  self.mu = mu  #mu-law parameter (value of 255 is used in practice)
+  self.compressor = []
+  self.expander = []
+  
+ #compressor part 
+ def compressor(in_signal):
+  V = in_signal.max()
+  for x in in_signal:
+    abs_x = abs(x)
+    ee= log(1+(mu*abs_x)/V)
+    compress = ee/log(1+mu)*sign_function(x)
+    compressor.append(compress)
+   return compressor
+    
+ #expander part 
+  def expander(comp_signal):
+    V = comp_signal.max()
+    for y in comp_signal: 
+      abs_y= abs(y)
+      ee=np.exp(abs_y*np.log(1+mu)/V)
+      expand = (V/mu)*(ee-1)*sign_function(y)
+      expander.append(expand)
+    return expander
+    
+    
+  def sign_function(x):
+      if x > 0:
+          return 1
+      elif x == 0:
+          return 0
+      else:
+          return -1
+          
+
+
+if __name__ == '__main__':
+    compander = COMPANDER(self, mu=255)
+    compander.compressor(in_signal)
